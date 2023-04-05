@@ -16,6 +16,7 @@
     <!-- Navigation Bar -->
     <my-header id=nav-ph w3-include-html='navbar.php'></my-header>
     <script type="module" src="javascript/navbar.js"></script>
+    <script type="module" src="javascript/recipeSections.js"></script>
 
     <?php
     $mysqli = require __DIR__ . "/php/database.php";
@@ -30,7 +31,7 @@
                 <div class="lg:flex lg:gap-4 justify-between items-center pb-3 text-center lg:text-left">
                     <h1 class="text-4xl">All Recipes</h1>
                     <div id="section" class="pt-2 text-xl grid grid-cols-3 lg:flex lg:gap-8">
-                        <button id="all">ALL</button>
+                        <button id="all" class="active">ALL</button>
                         <button id="dinners">DINNERS</button>
                         <button id="breakfast">BREAKFAST</button>
                         <button id="desserts">DESSERTS</button>
@@ -42,12 +43,11 @@
             </div>
             
             <!-- Recipe Icons -->
-            <div
-                class="py-12 w-fit mx-auto grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
+            <div class="py-12 w-fit mx-auto grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
                 <!-- Individual Recipe -->
                 <?php
                 while ($row = mysqli_fetch_assoc($result)) { ?>
-                    <a href="recipe.php?id=<?= $row['id'] ?>" class="w-11/12 max-w-sm sm:w-[250px] 2xl:w-[300px]">
+                    <a href="recipe.php?id=<?= $row['id'] ?>" class="recipe w-11/12 max-w-sm sm:w-[250px] 2xl:w-[300px] category-<?=strtolower($row['category'])?>">
                         <img src="uploads/<?=$row['imagePath']?>" alt="image" class="w-full object-cover object-center aspect-square">
                         <div class="bg-white p-2 text-left">
                             <p id="category" class="text-accentPink text-base uppercase"><?=$row['category']?></p>

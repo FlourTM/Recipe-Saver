@@ -15,7 +15,7 @@ if (isset($_POST['comment'])) {
         $sesid,
         $recipeID,
         $comment
-        );
+    );
     $result = $mysqli->query($sql);
 
     // display a message to the user

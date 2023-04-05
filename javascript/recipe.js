@@ -11,15 +11,36 @@ var comment = document.getElementById('comment');
 saveBtn.addEventListener('click', e => {
     e.preventDefault();
 
-    if (saveBtn.classList.contains('save')) {
-        saveBtn.classList.replace('save', 'unsave')
-        saveText.textContent = 'Unsave It'
-        saveIcon.innerHTML = 'heart_minus'
+    var postRequest = new XMLHttpRequest();
+    var url = './php/_saveRecipe.php';
+    postRequest.open('POST', url, true);
+
+    if (!sessionStorage.getItem('userid')) {
+        alert('Must be logged in to save recipes!')
     } else {
-        saveBtn.classList.replace('unsave', 'save')
-        saveText.textContent = 'Save It'
-        saveIcon.innerHTML = 'heart_plus'
-    }
+        if (saveBtn.classList.contains('save')) {
+            postRequest.onreadystatechange = function () {
+                if (postRequest.readyState == 4 && postRequest.status == 200) {
+                    alert(postRequest.responseText + " hello")
+                    if (postRequest.responseText.includes("saved")) {
+                        saveBtn.classList.replace('save', 'unsave')
+                        saveText.textContent = 'Unsave It'
+                        saveIcon.innerHTML = 'heart_minus'
+                    }
+                }
+            }
+            postRequest.send(`saveRecipe&recipeID=${recipe}`);
+        } else {
+            postRequest.onreadystatechange = function () {
+                if (postRequest.readyState == 4 && postRequest.status == 200) {
+                    saveBtn.classList.replace('unsave', 'save')
+                    saveText.textContent = 'Save It'
+                    saveIcon.innerHTML = 'heart_plus'
+                }
+            }
+            postRequest.send(`unsave&recipeID=${recipe}`);
+        }
+    } 
 })
 
 // Commenting
