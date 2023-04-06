@@ -28,6 +28,13 @@ if (isset($_SESSION['userid'])){
     );
     $userresult = $mysqli->query($usersql);
     $user = $userresult->fetch_assoc();
+
+    $savedsql = sprintf(
+        "SELECT * FROM savedrecipes WHERE userID = '%s' and recipeID ='$recipeId'",
+        $mysqli->real_escape_string($_SESSION['userid'])
+    );
+    $savedresult = $mysqli->query($savedsql);
+    $saved = $savedresult->fetch_assoc();
 }
 
 // gets comments for the specific recipe
@@ -75,21 +82,37 @@ if ($commentresult->num_rows > 0) {
             </div>
 
             <!-- Recipe -->
-            <div class="p-12 w-fit mx-auto grid lg:grid-cols-3 place-items-start gap-8 text-xl">
+            <div class="py-12 sm:px-12 w-fit mx-auto grid lg:grid-cols-3 place-items-start gap-8 text-lg sm:text-xl">
                 <img src="uploads/<?=$row['imagePath']?>" alt="image" class="w-full max-w-xl aspect-square">
 
                 <!-- Recipe Information -->
                 <div class="bg-white p-5 text-left grid lg:col-span-2 w-full gap-y-2">
                     <div class="flex justify-between">
                         <p class="text-accentPink uppercase"><?=$row['category']?></p>
-                        <button id="saveBtn" type='button' class="save flex items-center gap-1 uppercase text-LMtext1 hover:text-accentPink">
-                            <span id="saveIcon" class="material-symbols-outlined" style="font-size:32px;font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;">
-                                heart_plus</span>
-                            <p id="saveText">Save it</p>
-                        </button>
+                        <?php if ($user) {
+                            if ($saved) { ?>
+                                <button id="saveBtn" type='button' class="unsave flex items-center gap-1 uppercase text-LMtext1 hover:text-accentPink">
+                                    <span id="saveIcon" class="material-symbols-outlined" style="font-size:32px;font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;">
+                                        heart_minus</span>
+                                    <p id="saveText">Unsave it</p>
+                                </button>
+                            <?php } else { ?>
+                                <button id="saveBtn" type='button' class="save flex items-center gap-1 uppercase text-LMtext1 hover:text-accentPink">
+                                    <span id="saveIcon" class="material-symbols-outlined" style="font-size:32px;font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;">
+                                        heart_plus</span>
+                                    <p id="saveText">Save it</p>
+                                </button>
+                            <?php } 
+                        } else { ?>
+                            <button id="saveBtn" type='button' class="save flex items-center gap-1 uppercase text-LMtext1 hover:text-accentPink">
+                                <span id="saveIcon" class="material-symbols-outlined" style="font-size:32px;font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;">
+                                    heart_plus</span>
+                                <p id="saveText">Save it</p>
+                            </button>
+                        <?php } ?>
                     </div>
-                    <h2 id="title" class="text-3xl"><?=$row['title']?></h2>
-                    <div class="flex items-center gap-12 whitespace-nowrap">
+                    <h2 id="title" class="text-2xl sm:text-3xl"><?=$row['title']?></h2>
+                    <div class="grid grid-cols-2 sm:flex items-center gap-x-8 sm:gap-x-12 whitespace-nowrap">
                         <div class="text-center">
                             <p class="text-accentPink">Prep Time:</p>
                             <p><span id="prep"><?=$row['prepTime']?></span> mins</p>
@@ -104,7 +127,7 @@ if ($commentresult->num_rows > 0) {
                         </div>
                     </div>
 
-                    <h3 class="text-2xl pt-5">Ingredients</h3>
+                    <h3 class="text-xl sm:text-2xl pt-5">Ingredients</h3>
                     <div class='border w-full mx-auto border-LMtext2'></div>
                     <ul class="list-disc px-12">
                         <?php
@@ -118,7 +141,7 @@ if ($commentresult->num_rows > 0) {
                         ?>
                     </ul>
 
-                    <h3 class="text-2xl pt-5">Instructions</h3>
+                    <h3 class="text-xl sm:text-2xl pt-5">Instructions</h3>
                     <div class='border w-full mx-auto border-LMtext2'></div>
                     <ol class="list-decimal px-12">
                         <?php
@@ -134,16 +157,18 @@ if ($commentresult->num_rows > 0) {
                 </div>
 
                 <!-- Comment Section -->
-                <div class="bg-white p-5 text-left grid lg:col-span-3 w-full gap-y-2">
-                    <h2 class="text-3xl">Comments</h2>
+                <div class="bg-white p-5 text-left grid lg:col-span-3 w-full gap-y-2 text-sm sm:text-xl">
+                    <h2 class="text-2xl sm:text-3xl">Comments</h2>
                     <div class='border w-full mx-auto border-LMtext2'></div>
                     <?php
                     if ($user) {
                     ?>
-                        <form id="commentBox" class="flex items-center gap-3 px-12">
+                        <form id="commentBox" class="grid sm:flex items-center gap-x-3 px-2 sm:px-12">
                             <p class="text-accentPink whitespace-nowrap"><?= $user['firstName'] ?> <?= $user['lastName'] ?></p>
-                            <input id="comment" name="comment" type="text" placeholder='Add a comment' class='rounded px-2 w-full h-fit bg-transparent border-b border-LMtext2' required></input>
-                            <button id="sendBtn" type='button'><span class="material-symbols-outlined">send</span></button>
+                            <div class="flex items-center gap-3 w-full">
+                                <input id="comment" name="comment" type="text" placeholder='Add a comment' class='rounded px-2 w-full h-fit bg-transparent border-b border-LMtext2' required></input>
+                                <button id="sendBtn" type='button'><span class="material-symbols-outlined">send</span></button>
+                            </div>
                         </form>
                         <p id='confirmMsg' class="text-center text-accentPink"></p>
                     <?php
@@ -153,7 +178,7 @@ if ($commentresult->num_rows > 0) {
                     ?>
 
                     <!-- Comments -->
-                    <div id='commentDiv' class="grid gap-8 py-5 px-12">
+                    <div id='commentDiv' class="grid gap-8 py-5 px-2 sm:px-12">
                         <!-- Individual Comment -->
                         <?php
                         if (!empty($comments)) {

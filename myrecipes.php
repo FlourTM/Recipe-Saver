@@ -66,30 +66,31 @@
             </div>
 
             <div class="py-12">
-                <!-- If no recipes -->
-                <div class="hidden border-2 border-LMtext1 rounded p-5 bg-white w-11/12 sm:w-[500px] mx-auto">
-                    <h4 class="text-3xl text-center">It seems that you haven't added any recipes yet. To view your
-                        favorites here, press the heart on a recipe or add your own.</h4>
-                </div>
-
-                <!-- Recipe Icons -->
-                <div class="w-fit mx-auto grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
-                    <!-- Individual Recipe -->
-                    <?php foreach ($recipes as $recipe) { ?>
-                        <a href="recipe.php?id=<?= $row['id'] ?>" class="recipe w-11/12 max-w-sm sm:w-[250px] 2xl:w-[300px] category-<?=strtolower($row['category'])?>">
-                            <img src="uploads/<?=$row['imagePath']?>" alt="image" class="w-full object-cover object-center aspect-square">
-                            <div class="bg-white p-2 text-left">
-                                <p id="category" class="text-accentPink text-base uppercase"><?=$row['category']?></p>
-                                <h2 id="title" class="text-2xl"><?=$row['title']?></h2>
-                                <div class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined" style="font-size:20px;">timer</span>
-                                    <p class="text-base"><span id="time"><?=($row['prepTime'] + $row['cookTime'])?></span> mins</p>
+                <?php if ($recipes) { ?> 
+                    <!-- Recipe Icons -->
+                    <div class="w-fit mx-auto grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
+                        <!-- Individual Recipe -->
+                        <?php foreach ($recipes as $recipe) { ?>
+                            <a href="recipe.php?id=<?= $recipe['id'] ?>" class="recipe w-11/12 max-w-sm sm:w-[250px] 2xl:w-[300px] category-<?=strtolower($recipe['category'])?>">
+                                <img src="uploads/<?=$recipe['imagePath']?>" alt="image" class="w-full object-cover object-center aspect-square">
+                                <div class="bg-white p-2 text-left">
+                                    <p id="category" class="text-accentPink text-base uppercase"><?=$recipe['category']?></p>
+                                    <h2 id="title" class="text-2xl"><?=$recipe['title']?></h2>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined" style="font-size:20px;">timer</span>
+                                        <p class="text-base"><span id="time"><?=($recipe['prepTime'] + $recipe['cookTime'])?></span> mins</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    <?php } ?>
-                    <!-- DO ELSE STATEMENT TO DISPLAY THAT THEY HAVE NOT SAVED ANY RECIPES -->
-                </div>
+                            </a>
+                        <?php } ?>
+                    </div>
+                <?php } else { ?>
+                    <!-- If no recipes -->
+                    <div class="border-2 border-LMtext1 rounded p-5 bg-white w-11/12 sm:max-w-2xl mx-auto">
+                        <h4 class="text-3xl text-center">It seems that you haven't added any recipes yet. To view your
+                            favorites here, press the heart on a recipe or add your own.</h4>
+                    </div>
+                <?php } ?>
             </div>
 
             <?php

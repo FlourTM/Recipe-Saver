@@ -14,6 +14,7 @@ saveBtn.addEventListener('click', e => {
     var postRequest = new XMLHttpRequest();
     var url = './php/_saveRecipe.php';
     postRequest.open('POST', url, true);
+    postRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     if (!sessionStorage.getItem('userid')) {
         alert('Must be logged in to save recipes!')
@@ -21,7 +22,6 @@ saveBtn.addEventListener('click', e => {
         if (saveBtn.classList.contains('save')) {
             postRequest.onreadystatechange = function () {
                 if (postRequest.readyState == 4 && postRequest.status == 200) {
-                    alert(postRequest.responseText + " hello")
                     if (postRequest.responseText.includes("saved")) {
                         saveBtn.classList.replace('save', 'unsave')
                         saveText.textContent = 'Unsave It'
@@ -30,7 +30,7 @@ saveBtn.addEventListener('click', e => {
                 }
             }
             postRequest.send(`saveRecipe&recipeID=${recipe}`);
-        } else {
+        } else if (saveBtn.classList.contains('unsave')) {
             postRequest.onreadystatechange = function () {
                 if (postRequest.readyState == 4 && postRequest.status == 200) {
                     saveBtn.classList.replace('unsave', 'save')
@@ -40,7 +40,7 @@ saveBtn.addEventListener('click', e => {
             }
             postRequest.send(`unsave&recipeID=${recipe}`);
         }
-    } 
+    }
 })
 
 // Commenting
