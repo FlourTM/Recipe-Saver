@@ -42,7 +42,7 @@ function includeHTML() {
         })
     })
 
-    // // This section handles the login and register forms
+    // This section handles the login and register forms
     const loginForm = document.getElementById('login'),
         registerForm = document.getElementById('register'),
         loginBtn = document.getElementById('loginBtn'),
