@@ -8,29 +8,25 @@ if (isset($_POST["fName"])) {
     $first = $mysqli->real_escape_string($_POST['fName']);
     $last = $mysqli->real_escape_string($_POST['lName']);
     $email = $mysqli->real_escape_string($_POST['email']);
-    $phone = $mysqli->real_escape_string($_POST['phone']);
+    $phone = isset($_POST['phone']) && !empty($_POST['phone']) ? "'" . $mysqli->real_escape_string($_POST['phone']) . "'" : "NULL";
     $sesid = $mysqli->real_escape_string($_SESSION['userid']);
 
-    $sqlfetch = sprintf("SELECT * FROM user");
+    $sqlfetch = sprintf("SELECT * FROM user WHERE id = %d", $sesid);
     $result = $mysqli->query($sqlfetch);
 
     if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            if ($row['email'] == $_POST['email'] && $row['id'] != $_SESSION['userid']) {
-                echo ("Email already taken!");
-                break;
-            } elseif ($row['phone'] == $_POST['phone'] && $row['id'] != $_SESSION['userid']) {
-                echo ("Phone already taken!");
-                break;
-            } else {
-                $sql = "UPDATE user 
-                    SET firstName = '$first', lastName = '$last', email = '$email', phone = '$phone'
+        $row = mysqli_fetch_assoc($result);
+        if ($row['email'] == $_POST['email'] && $row['id'] != $_SESSION['userid']) {
+            echo ("Email already taken!");
+        } elseif ($row['phone'] == $_POST['phone'] && $row['id'] != $_SESSION['userid']) {
+            echo ("Phone already taken!");
+        } else {
+            $sql = "UPDATE user 
+                    SET firstName = '$first', lastName = '$last', email = '$email', phone = $phone
                     WHERE id = '$sesid'";
-                echo ("Account details successfully saved.");
-                if (!$mysqli->query($sql)) {
-                    echo ($mysqli->affected_rows);
-                }
-                break;
+            echo ("Account details successfully saved.");
+            if (!$mysqli->query($sql)) {
+                echo ($mysqli->affected_rows);
             }
         }
     }

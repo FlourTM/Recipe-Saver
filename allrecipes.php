@@ -24,13 +24,13 @@
     $result = $mysqli->query($sql);
     ?>
 
-    <div name="AllRecipes" class='max-w-screen min-h-screen bg-LMbg'>
-        <div class="mx-auto px-8 md:px-24 lg:px-32 pt-12 pb-24 sm:pt-24 text-LMtext1">
+    <div name="AllRecipes" class='min-h-screen max-w-screen bg-LMbg'>
+        <div class="px-8 pt-12 pb-24 mx-auto md:px-24 lg:px-32 sm:pt-24 text-LMtext1">
             <!-- Header -->
             <div>
-                <div class="lg:flex lg:gap-4 justify-between items-center pb-3 text-center lg:text-left">
+                <div class="items-center justify-between pb-3 text-center lg:flex lg:gap-4 lg:text-left">
                     <h1 class="text-4xl">All Recipes</h1>
-                    <div id="section" class="pt-2 text-xl grid grid-cols-3 lg:flex lg:gap-8">
+                    <div id="section" class="grid grid-cols-3 pt-2 text-xl lg:flex lg:gap-8">
                         <button id="all" class="active">ALL</button>
                         <button id="dinners">DINNERS</button>
                         <button id="breakfast">BREAKFAST</button>
@@ -39,18 +39,18 @@
                         <button id="drinks">DRINKS</button>
                     </div>
                 </div>
-                <div class='border w-full mx-auto border-LMtext2'></div>
+                <div class='w-full mx-auto border border-LMtext2'></div>
             </div>
             
             <!-- Recipe Icons -->
-            <div class="py-12 w-fit mx-auto grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
+            <div class="grid py-12 mx-auto w-fit sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
                 <!-- Individual Recipe -->
                 <?php
                 while ($row = mysqli_fetch_assoc($result)) { ?>
                     <a href="recipe.php?id=<?= $row['id'] ?>" class="recipe w-11/12 max-w-sm sm:w-[250px] 2xl:w-[300px] category-<?=strtolower($row['category'])?>">
-                        <img src="uploads/<?=$row['imagePath']?>" alt="image" class="w-full object-cover object-center aspect-square">
-                        <div class="bg-white p-2 text-left">
-                            <p id="category" class="text-accentPink text-base uppercase"><?=$row['category']?></p>
+                        <img src="uploads/<?=$row['imagePath']?>" alt="image" class="object-cover object-center w-full aspect-square">
+                        <div class="flex flex-col justify-center h-32 p-2 my-auto text-left bg-white">
+                            <p id="category" class="text-base uppercase text-accentPink"><?=$row['category']?></p>
                             <h2 id="title" class="text-2xl"><?=$row['title']?></h2>
                             <div class="flex items-center gap-1">
                                 <span class="material-symbols-outlined" style="font-size:20px;">timer</span>

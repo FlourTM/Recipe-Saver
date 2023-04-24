@@ -43,111 +43,109 @@
     if ($user) {
     ?>
 
-        <div name="Account" class='max-w-screen min-h-screen bg-LMbg'>
-            <div class="mx-auto px-8 md:px-24 lg:px-32 pt-12 pb-24 sm:pt-24 text-LMtext1">
+        <div name="Account" class='min-h-screen max-w-screen bg-LMbg'>
+            <div class="px-8 pt-12 pb-24 mx-auto md:px-24 lg:px-32 sm:pt-24 text-LMtext1">
                 <!-- Header -->
                 <div>
-                    <div class="lg:flex lg:gap-4 justify-between items-center pb-3 text-center lg:text-left">
+                    <div class="items-center justify-between pb-3 text-center lg:flex lg:gap-4 lg:text-left">
                         <h1 class="text-4xl">My Account</h1>
-                        <div id="section" class="pt-2 text-xl grid sm:flex gap-3 sm:gap-8 justify-center">
+                        <div id="section" class="grid justify-center gap-3 pt-2 text-xl sm:flex sm:gap-8">
                             <button id="myInfo" class="active section">MY INFORMATION</button>
                             <button id="uploaded" class="section">UPLOADED RECIPES</button>
                         </div>
                     </div>
-                    <div class='border w-full mx-auto border-LMtext2'></div>
+                    <div class='w-full mx-auto border border-LMtext2'></div>
                 </div>
 
                 <!-- My Information -->
                 <div id="information" class="w-full max-w-[700px] h-fit mx-auto py-12">
-                    <div class="border-2 border-LMtext1 rounded py-8 bg-white">
-                        <h2 class="text-center text-3xl font-semibold">Hello <span id="helloName">
+                    <div class="py-8 bg-white border-2 rounded border-LMtext1">
+                        <h2 class="text-3xl font-semibold text-center">Hello <span id="helloName">
                                 <?= $user['firstName'] ?></span>!</h2>
-                        <p class="text-center text-xl text-LMtext1">Not you?
-                            <button type="submit" id="logout" class="logout font-semibold text-accentPink underline" name="logout">Logout.</button>
+                        <p class="text-xl text-center text-LMtext1">Not you?
+                            <button type="submit" id="logout" class="font-semibold underline logout text-accentPink" name="logout">Logout.</button>
                         </p>
 
-                        <p id="confirm-msg" class="confirm-message text-center text-lg text-red-600"></p>
+                        <p id="confirm-msg" class="text-lg text-center text-red-600 confirm-message"></p>
 
                         <!-- Information -->
-                        <div class='grid w-full h-fit px-5 sm:px-12 text-2xl'>
+                        <div class='grid w-full px-5 text-2xl h-fit sm:px-12'>
                             <!-- Account Details -->
-                            <form id="accountForm" class="text-LMtext2 py-5">
-                                <div class='grid sm:flex items-center'>
-                                    <p class='font-semibold text-LMtext1 pr-2 whitespace-nowrap'>First
+                            <form id="accountForm" class="py-5 text-LMtext2">
+                                <div class='grid items-center sm:flex'>
+                                    <p class='pr-2 font-semibold text-LMtext1 whitespace-nowrap'>First
                                         Name:</p>
-                                    <input id="fName" name="firstname" type='text' placeholder='<?= $user["firstName"] ?>' value='<?= $user["firstName"] ?>' class='input1 w-full h-fit rounded px-2 text-xl bg-transparent' readonly></input>
+                                    <input id="fName" name="firstname" type='text' placeholder='<?= $user["firstName"] ?>' value='<?= $user["firstName"] ?>' class='w-full px-2 text-xl bg-transparent rounded input1 h-fit' readonly></input>
                                 </div>
-                                <div class='grid sm:flex items-center pt-5'>
-                                    <p class='font-semibold text-LMtext1 pr-2 whitespace-nowrap'>Last
+                                <div class='grid items-center pt-5 sm:flex'>
+                                    <p class='pr-2 font-semibold text-LMtext1 whitespace-nowrap'>Last
                                         Name:</p>
-                                    <input id="lName" name="lastname" type='text' placeholder='<?= $user["lastName"] ?>' value='<?= $user["lastName"] ?>' class='input1 w-full h-fit rounded px-2 text-xl bg-transparent' readonly></input>
+                                    <input id="lName" name="lastname" type='text' placeholder='<?= $user["lastName"] ?>' value='<?= $user["lastName"] ?>' class='w-full px-2 text-xl bg-transparent rounded input1 h-fit' readonly></input>
                                 </div>
-                                <div class='grid sm:flex items-center pt-5'>
-                                    <p class='font-semibold text-LMtext1 pr-2 whitespace-nowrap'>Email:
+                                <div class='grid items-center pt-5 sm:flex'>
+                                    <p class='pr-2 font-semibold text-LMtext1 whitespace-nowrap'>Email:
                                     </p>
-                                    <input id="email" name="email" type='email' placeholder='<?= $user["email"] ?>' value='<?= $user["email"] ?>' class='input1 w-full h-fit rounded px-2 text-xl bg-transparent' readonly></input>
+                                    <input id="email" name="email" type='email' placeholder='<?= $user["email"] ?>' value='<?= $user["email"] ?>' class='w-full px-2 text-xl bg-transparent rounded input1 h-fit' readonly></input>
                                 </div>
-                                <div class='grid sm:flex items-center pt-5'>
-                                    <p class='font-semibold text-LMtext1 pr-2 whitespace-nowrap'>Phone:
+                                <div class='grid items-center pt-5 sm:flex'>
+                                    <p class='pr-2 font-semibold text-LMtext1 whitespace-nowrap'>Phone:
                                     </p>
                                     <input id="phone" name="phone" type='tel' placeholder='<?php if ($user["phone"] != null) { ?>
                                         <?= $user["phone"] ?>
-                                        <?php } else { ?>No phone number added.<?php } ?>' value='<?= $user["phone"] ?>' class='input1 w-full h-fit rounded px-2 text-xl bg-transparent' readonly></input>
+                                        <?php } else { ?>No phone number added.<?php } ?>' value='<?= $user["phone"] ?>' class='w-full px-2 text-xl bg-transparent rounded input1 h-fit' readonly></input>
                                 </div>
                             </form>
 
                             <!-- Password -->
                             <form id="passForm" class='hidden text-LMtext2'>
                                 <div class='flex flex-col w-full pt-5'>
-                                    <p class='font-semibold text-LMtext1 pr-2'>Current
+                                    <p class='pr-2 font-semibold text-LMtext1'>Current
                                         Password:</p>
                                     <div class="flex">
-                                        <input id="current" name="current" type='password' class='pwFields current rounded px-2 text-xl bg-transparent border-b border-LMtext1 w-full'></input>
+                                        <input id="current" name="current" type='password' class='w-full px-2 text-xl bg-transparent border-b rounded pwFields current border-LMtext1'></input>
                                         <button type="button"><span class="material-symbols-outlined eyeIcon current" style="font-size:24px;margin-left:-32px;margin-top:4px;">visibility_off</span></button>
                                     </div>
                                 </div>
                                 <div class='flex flex-col pt-5'>
-                                    <p class='font-semibold text-LMtext1 pr-2 w-fit'>New
+                                    <p class='pr-2 font-semibold text-LMtext1 w-fit'>New
                                         Password:
                                     </p>
                                     <div class="flex">
-                                        <input id="new" name="new" type='password' class='pwFields new rounded px-2 text-xl bg-transparent border-b border-LMtext1 w-full'></input>
+                                        <input id="new" name="new" type='password' class='w-full px-2 text-xl bg-transparent border-b rounded pwFields new border-LMtext1'></input>
                                         <button type="button"><span class="material-symbols-outlined eyeIcon new" style="font-size:24px;margin-left:-32px;margin-top:4px;">visibility_off</span></button>
                                     </div>
                                 </div>
                                 <div class='flex flex-col pt-5'>
-                                    <p class='font-semibold text-LMtext1 pr-2 w-fit'>Confirm
+                                    <p class='pr-2 font-semibold text-LMtext1 w-fit'>Confirm
                                         Password:</p>
                                     <div class="flex">
-                                        <input id="confirm" name="confirm" type='password' class='pwFields confirm rounded px-2 text-xl bg-transparent border-b border-LMtext1 w-full'></input>
+                                        <input id="confirm" name="confirm" type='password' class='w-full px-2 text-xl bg-transparent border-b rounded pwFields confirm border-LMtext1'></input>
                                         <button type="button"><span class="material-symbols-outlined eyeIcon confirm" style="font-size:24px;margin-left:-32px;margin-top:4px;">visibility_off</span></button>
                                     </div>
                                 </div>
                             </form>
 
                             <!-- Information Buttons -->
-                            <div class='grid sm:flex justify-center pt-5 gap-4 sm:gap-8'>
-                                <button id="edit" type="button" class='edit rounded px-8 w-52 text-lg border border-b-4 border-LMtext1 text-LMtext1
-                                    hover:bg-LMtext1 hover:text-LMbg'>Edit Details</button>
-                                <button id="change" type="button" class='change rounded px-8 w-52 text-lg border border-b-4 border-LMtext1 text-LMtext1
-                                    hover:bg-LMtext1 hover:text-LMbg'>Change Password</button>
+                            <div class='grid justify-center gap-4 pt-5 sm:flex sm:gap-8'>
+                                <button id="edit" type="button" class='px-8 text-lg border border-b-4 rounded edit w-52 border-LMtext1 text-LMtext1 hover:bg-LMtext1 hover:text-LMbg'>Edit Details</button>
+                                <button id="change" type="button" class='px-8 text-lg border border-b-4 rounded change w-52 border-LMtext1 text-LMtext1 hover:bg-LMtext1 hover:text-LMbg'>Change Password</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div id='recipes' class="hidden">
-                    <p class="text-2xl text-center py-5">Want to upload a recipe? <a href="upload"
-                        class="text-accentPink underline">Start here.</a></p>
+                    <p class="py-5 text-2xl text-center">Want to upload a recipe? <a href="upload"
+                        class="underline text-accentPink">Start here.</a></p>
                     <?php if ($recipes) { ?> 
                         <!-- Recipe Icons -->
-                        <div class="py-12 w-fit mx-auto grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
+                        <div class="grid py-12 mx-auto w-fit sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
                             <!-- Individual Recipe -->
                             <?php foreach ($recipes as $recipe) { ?>
                                 <a href="recipe.php?id=<?= $recipe['id'] ?>" class="recipe w-11/12 max-w-sm sm:w-[250px] 2xl:w-[300px] category-<?=strtolower($recipe['category'])?>">
-                                    <img src="uploads/<?=$recipe['imagePath']?>" alt="image" class="w-full object-cover object-center aspect-square">
-                                    <div class="bg-white p-2 text-left">
-                                        <p id="category" class="text-accentPink text-base uppercase"><?=$recipe['category']?></p>
+                                    <img src="uploads/<?=$recipe['imagePath']?>" alt="image" class="object-cover object-center w-full aspect-square">
+                                    <div class="flex flex-col justify-center h-32 p-2 my-auto text-left bg-white">
+                                        <p id="category" class="text-base uppercase text-accentPink"><?=$recipe['category']?></p>
                                         <h2 id="title" class="text-2xl"><?=$recipe['title']?></h2>
                                         <div class="flex items-center gap-1">
                                             <span class="material-symbols-outlined" style="font-size:20px;">timer</span>
@@ -159,7 +157,7 @@
                         </div>
                     <?php } else { ?>
                         <!-- If no recipes -->
-                        <div class="border-2 border-LMtext1 rounded p-5 bg-white w-11/12 sm:max-w-2xl mx-auto">
+                        <div class="w-11/12 p-5 mx-auto bg-white border-2 rounded border-LMtext1 sm:max-w-2xl">
                             <h4 class="text-3xl text-center">It seems that you haven't uploaded any recipes yet.</h4>
                         </div>
                     <?php } ?>

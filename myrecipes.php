@@ -42,14 +42,14 @@
     $reciperesult = $mysqli->query($recipesql);
     $recipes = $reciperesult->fetch_all(MYSQLI_ASSOC);
     ?>
-    <div name="MyRecipes" class='max-w-screen min-h-screen bg-LMbg'>
-        <div class="mx-auto px-8 md:px-24 lg:px-32 pt-12 pb-24 sm:pt-24 text-LMtext1">
+    <div name="MyRecipes" class='min-h-screen max-w-screen bg-LMbg'>
+        <div class="px-8 pt-12 pb-24 mx-auto md:px-24 lg:px-32 sm:pt-24 text-LMtext1">
             <?php if ($user) { ?>
             <!-- Header -->
             <div>
-                <div class="lg:flex lg:gap-4 justify-between items-center pb-3 text-center lg:text-left">
+                <div class="items-center justify-between pb-3 text-center lg:flex lg:gap-4 lg:text-left">
                     <h1 class="text-4xl">My Recipes</h1>
-                    <div id="section" class="pt-2 text-xl grid grid-cols-3 lg:flex lg:gap-8">
+                    <div id="section" class="grid grid-cols-3 pt-2 text-xl lg:flex lg:gap-8">
                         <button id="all" class="active">ALL</button>
                         <button id="dinners">DINNERS</button>
                         <button id="breakfast">BREAKFAST</button>
@@ -58,23 +58,23 @@
                         <button id="drinks">DRINKS</button>
                     </div>
                 </div>
-                <div class='border w-full mx-auto border-LMtext2'></div>
+                <div class='w-full mx-auto border border-LMtext2'></div>
 
-                <p class="text-3xl text-center pt-5">Here's recipes you've loved.</p>
+                <p class="pt-5 text-3xl text-center">Here's recipes you've loved.</p>
                 <p class="text-2xl text-center">Want to upload your own? <a href="upload"
-                        class="text-accentPink underline">Start here.</a></p>
+                        class="underline text-accentPink">Start here.</a></p>
             </div>
 
             <div class="py-12">
                 <?php if ($recipes) { ?> 
                     <!-- Recipe Icons -->
-                    <div class="w-fit mx-auto grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
+                    <div class="grid mx-auto w-fit sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-3 md:gap-x-8 gap-y-20">
                         <!-- Individual Recipe -->
                         <?php foreach ($recipes as $recipe) { ?>
                             <a href="recipe.php?id=<?= $recipe['id'] ?>" class="recipe w-11/12 max-w-sm sm:w-[250px] 2xl:w-[300px] category-<?=strtolower($recipe['category'])?>">
-                                <img src="uploads/<?=$recipe['imagePath']?>" alt="image" class="w-full object-cover object-center aspect-square">
-                                <div class="bg-white p-2 text-left">
-                                    <p id="category" class="text-accentPink text-base uppercase"><?=$recipe['category']?></p>
+                                <img src="uploads/<?=$recipe['imagePath']?>" alt="image" class="object-cover object-center w-full aspect-square">
+                                <div class="flex flex-col justify-center h-32 p-2 my-auto text-left bg-white">
+                                    <p id="category" class="text-base uppercase text-accentPink"><?=$recipe['category']?></p>
                                     <h2 id="title" class="text-2xl"><?=$recipe['title']?></h2>
                                     <div class="flex items-center gap-1">
                                         <span class="material-symbols-outlined" style="font-size:20px;">timer</span>
@@ -86,7 +86,7 @@
                     </div>
                 <?php } else { ?>
                     <!-- If no recipes -->
-                    <div class="border-2 border-LMtext1 rounded p-5 bg-white w-11/12 sm:max-w-2xl mx-auto">
+                    <div class="w-11/12 p-5 mx-auto bg-white border-2 rounded border-LMtext1 sm:max-w-2xl">
                         <h4 class="text-3xl text-center">It seems that you haven't added any recipes yet. To view your
                             favorites here, press the heart on a recipe or add your own.</h4>
                     </div>
@@ -97,9 +97,9 @@
             $mysqli->close();
             } else { ?>
             <div>
-                <div class="lg:flex lg:gap-4 justify-between items-center pb-3 text-center lg:text-left">
+                <div class="items-center justify-between pb-3 text-center lg:flex lg:gap-4 lg:text-left">
                     <h1 class="text-4xl">My Recipes</h1>
-                    <div id="section" class="pt-2 text-xl grid grid-cols-3 lg:flex lg:gap-8">
+                    <div id="section" class="grid grid-cols-3 pt-2 text-xl lg:flex lg:gap-8">
                         <button id="all">ALL</button>
                         <button id="dinners">DINNERS</button>
                         <button id="breakfast">BREAKFAST</button>
@@ -108,8 +108,8 @@
                         <button id="drinks">DRINKS</button>
                     </div>
                 </div>
-                <div class='border w-full mx-auto border-LMtext2'></div>
-                <p class="text-3xl text-center pt-10">You must be signed in to view your saved recipes.</p>
+                <div class='w-full mx-auto border border-LMtext2'></div>
+                <p class="pt-10 text-3xl text-center">You must be signed in to view your saved recipes.</p>
             </div>
             <?php }
             ?>
