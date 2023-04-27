@@ -174,11 +174,12 @@ function includeHTML() {
                 }
                 postRequest.onreadystatechange = function () {
                     if (postRequest.readyState == 4 && postRequest.status == 200) {
-                        if (postRequest.responseText.includes("!DOCTYPE")) {
-                            window.location = 'index?msg=loggedin'
-                        }
-                        else {
-                            confirmMsg.textContent = postRequest.responseText
+                        if (postRequest.responseText == "login_succ") {
+                            sessionStorage.setItem("userid", 'loggedin')
+                            confirmMsg.innerHTML = 'Login Successful!'
+                            location.reload()
+                        } else {
+                            confirmMsg.innerHTML = postRequest.responseText
                         }
                     }
                 }

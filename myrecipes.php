@@ -19,9 +19,9 @@
     <script type="module" src="javascript/recipeSections.js"></script>
 
     <?php
+    $mysqli = require __DIR__ . "/php/database.php";
     $user = false;
     if (isset($_SESSION['userid'])){
-        $mysqli = require __DIR__ . "/php/database.php";
         $sql = sprintf(
             "SELECT * FROM user
                 WHERE id = '%s'",
@@ -29,18 +29,18 @@
         );
         $result = $mysqli->query($sql);
         $user = $result->fetch_assoc();
-    }
 
-    // User Saved Recipes
-    $recipesql = sprintf(
-        "SELECT r.id, r.title, r.category, r.prepTime, r.cookTime, r.imagePath
-        FROM recipe r
-        INNER JOIN savedrecipes ur ON r.id = ur.recipeID
-        WHERE ur.userID = '%s'",
-        $mysqli->real_escape_string($_SESSION['userid'])
-    );
-    $reciperesult = $mysqli->query($recipesql);
-    $recipes = $reciperesult->fetch_all(MYSQLI_ASSOC);
+        // User Saved Recipes
+        $recipesql = sprintf(
+            "SELECT r.id, r.title, r.category, r.prepTime, r.cookTime, r.imagePath
+            FROM recipe r
+            INNER JOIN savedrecipes ur ON r.id = ur.recipeID
+            WHERE ur.userID = '%s'",
+            $mysqli->real_escape_string($_SESSION['userid'])
+        );
+        $reciperesult = $mysqli->query($recipesql);
+        $recipes = $reciperesult->fetch_all(MYSQLI_ASSOC);
+    }
     ?>
     <div name="MyRecipes" class='min-h-screen max-w-screen bg-LMbg'>
         <div class="px-8 pt-12 pb-24 mx-auto md:px-24 lg:px-32 sm:pt-24 text-LMtext1">

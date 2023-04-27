@@ -788,8 +788,8 @@ video {
   aspect-ratio: 1 / 1;
 }
 
-.h-10 {
-  height: 2.5rem;
+.h-32 {
+  height: 8rem;
 }
 
 .h-44 {
@@ -803,18 +803,6 @@ video {
 
 .h-full {
   height: 100%;
-}
-
-.h-24 {
-  height: 6rem;
-}
-
-.h-36 {
-  height: 9rem;
-}
-
-.h-32 {
-  height: 8rem;
 }
 
 .min-h-screen {
@@ -860,6 +848,18 @@ video {
 
 .max-w-xl {
   max-width: 36rem;
+}
+
+.max-w-screen-md {
+  max-width: 728px;
+}
+
+.max-w-\[500px\] {
+  max-width: 500px;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
 }
 
 .flex-shrink {
@@ -2257,6 +2257,10 @@ video {
 
 .decoration-wavy {
   text-decoration-style: wavy;
+}
+
+.decoration-4 {
+  text-decoration-thickness: 4px;
 }
 
 .antialiased {

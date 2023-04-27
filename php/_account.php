@@ -49,7 +49,7 @@ if (isset($_POST['lemail'])) {
     if ($user) {
         if (password_verify($_POST["lpassword"], $user["pass_hash"])) {
             $_SESSION["userid"] = $user["id"];
-            header("Location: ../index.php?msg=loggedin");
+            echo 'login_succ';
         } else {
             echo ("Invalid email or password!");
         }
@@ -57,13 +57,13 @@ if (isset($_POST['lemail'])) {
     } else {
         echo ("No account associated with this email!");
     }
-
-    $is_invalid = true;
-    exit;
 }
 
 //Logging out
 if (isset($_POST['logout'])) {
-    unset($_SESSION['userid']);
-    session_destroy();
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        unset($_SESSION['userid']);
+        session_destroy();
+    }
+    exit;
 }
