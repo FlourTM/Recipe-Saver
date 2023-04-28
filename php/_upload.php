@@ -44,7 +44,7 @@ if (isset($_POST["title"])) {
     $recipeId = $mysqli->insert_id;
 
     // Insert a new row into the userRecipes table
-    $sql = "INSERT INTO userRecipes (userID, recipeID) VALUES (?, ?)";
+    $sql = "INSERT INTO userrecipes (userID, recipeID) VALUES (?, ?)";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("ii", $sesid, $recipeId);
 
