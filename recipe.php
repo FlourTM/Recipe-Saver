@@ -6,6 +6,7 @@ if (!isset($_GET['id'])) {
     exit();
 }
 $recipeId = $_GET['id'];
+$_SESSION['current_recipe_id'] = $recipeId;
 $mysqli = require __DIR__ . '/php/database.php';
 $recipesql = sprintf(
     "SELECT * FROM recipe WHERE id = '%s'",
@@ -72,39 +73,40 @@ if ($commentresult->num_rows > 0) {
     <script type="module" src="javascript/navbar.js"></script>
 
     <script type="module" src="javascript/recipe.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    <div name="Recipe" class='max-w-screen min-h-screen bg-LMbg'>
-        <div class="mx-auto px-8 md:px-24 lg:px-32 pt-12 pb-24 sm:pt-24 text-LMtext1">
+    <div name="Recipe" class='min-h-screen max-w-screen bg-LMbg'>
+        <div class="px-8 pt-12 pb-24 mx-auto md:px-24 lg:px-32 sm:pt-24 text-LMtext1">
             <!-- Header -->
             <div>
-                <h1 class="text-4xl pb-3"><?=$row['title']?></h1>
-                <div class='border w-full mx-auto border-LMtext2'></div>
+                <h1 class="pb-3 text-4xl"><?=$row['title']?></h1>
+                <div class='w-full mx-auto border border-LMtext2'></div>
             </div>
 
             <!-- Recipe -->
-            <div class="py-12 sm:px-12 w-fit mx-auto grid lg:grid-cols-3 place-items-start gap-8 text-lg sm:text-xl">
+            <div class="grid gap-8 py-12 mx-auto text-lg sm:px-12 w-fit lg:grid-cols-3 place-items-start sm:text-xl">
                 <img src="uploads/<?=$row['imagePath']?>" alt="image" class="w-full max-w-xl aspect-square">
 
                 <!-- Recipe Information -->
-                <div class="bg-white p-5 text-left grid lg:col-span-2 w-full gap-y-2">
+                <div class="grid w-full p-5 text-left bg-white lg:col-span-2 gap-y-2">
                     <div class="flex justify-between">
-                        <p class="text-accentPink uppercase"><?=$row['category']?></p>
+                        <p class="uppercase text-accentPink"><?=$row['category']?></p>
                         <?php if ($user) {
                             if ($saved) { ?>
-                                <button id="saveBtn" type='button' class="unsave flex items-center gap-1 uppercase text-LMtext1 hover:text-accentPink">
+                                <button id="saveBtn" type='button' class="flex items-center gap-1 uppercase unsave text-LMtext1 hover:text-accentPink">
                                     <span id="saveIcon" class="material-symbols-outlined" style="font-size:32px;font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;">
                                         heart_minus</span>
                                     <p id="saveText">Unsave it</p>
                                 </button>
                             <?php } else { ?>
-                                <button id="saveBtn" type='button' class="save flex items-center gap-1 uppercase text-LMtext1 hover:text-accentPink">
+                                <button id="saveBtn" type='button' class="flex items-center gap-1 uppercase save text-LMtext1 hover:text-accentPink">
                                     <span id="saveIcon" class="material-symbols-outlined" style="font-size:32px;font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;">
                                         heart_plus</span>
                                     <p id="saveText">Save it</p>
                                 </button>
                             <?php } 
                         } else { ?>
-                            <button id="saveBtn" type='button' class="save flex items-center gap-1 uppercase text-LMtext1 hover:text-accentPink">
+                            <button id="saveBtn" type='button' class="flex items-center gap-1 uppercase save text-LMtext1 hover:text-accentPink">
                                 <span id="saveIcon" class="material-symbols-outlined" style="font-size:32px;font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;">
                                     heart_plus</span>
                                 <p id="saveText">Save it</p>
@@ -112,7 +114,7 @@ if ($commentresult->num_rows > 0) {
                         <?php } ?>
                     </div>
                     <h2 id="title" class="text-2xl sm:text-3xl"><?=$row['title']?></h2>
-                    <div class="grid grid-cols-2 sm:flex items-center gap-x-8 sm:gap-x-12 whitespace-nowrap">
+                    <div class="grid items-center grid-cols-2 sm:flex gap-x-8 sm:gap-x-12 whitespace-nowrap">
                         <div class="text-center">
                             <p class="text-accentPink">Prep Time:</p>
                             <p><span id="prep"><?=$row['prepTime']?></span> mins</p>
@@ -127,9 +129,9 @@ if ($commentresult->num_rows > 0) {
                         </div>
                     </div>
 
-                    <h3 class="text-xl sm:text-2xl pt-5">Ingredients</h3>
-                    <div class='border w-full mx-auto border-LMtext2'></div>
-                    <ul class="list-disc px-12">
+                    <h3 class="pt-5 text-xl sm:text-2xl">Ingredients</h3>
+                    <div class='w-full mx-auto border border-LMtext2'></div>
+                    <ul class="px-12 list-disc">
                         <?php
                         $ingredients = explode(';', $row['ingredients']);
                         foreach ($ingredients as $ingredient) {
@@ -141,9 +143,9 @@ if ($commentresult->num_rows > 0) {
                         ?>
                     </ul>
 
-                    <h3 class="text-xl sm:text-2xl pt-5">Instructions</h3>
-                    <div class='border w-full mx-auto border-LMtext2'></div>
-                    <ol class="list-decimal px-12">
+                    <h3 class="pt-5 text-xl sm:text-2xl">Instructions</h3>
+                    <div class='w-full mx-auto border border-LMtext2'></div>
+                    <ol class="px-12 list-decimal">
                         <?php
                         $instructions = explode(';', $row['instructions']);
                         foreach ($instructions as $instruction) {
@@ -157,16 +159,16 @@ if ($commentresult->num_rows > 0) {
                 </div>
 
                 <!-- Comment Section -->
-                <div class="bg-white p-5 text-left grid lg:col-span-3 w-full gap-y-2 text-sm sm:text-xl">
+                <div class="grid w-full p-5 text-sm text-left bg-white lg:col-span-3 gap-y-2 sm:text-xl">
                     <h2 class="text-2xl sm:text-3xl">Comments</h2>
-                    <div class='border w-full mx-auto border-LMtext2'></div>
+                    <div class='w-full mx-auto border border-LMtext2'></div>
                     <?php
                     if ($user) {
                     ?>
-                        <form id="commentBox" class="grid sm:flex items-center gap-x-3 px-2 sm:px-12">
+                        <form id="commentBox" class="grid items-center px-2 sm:flex gap-x-3 sm:px-12">
                             <p class="text-accentPink whitespace-nowrap"><?= $user['firstName'] ?> <?= $user['lastName'] ?></p>
-                            <div class="flex items-center gap-3 w-full">
-                                <input id="comment" name="comment" type="text" placeholder='Add a comment' class='rounded px-2 w-full h-fit bg-transparent border-b border-LMtext2' required></input>
+                            <div class="flex items-center w-full gap-3">
+                                <input id="comment" name="comment" type="text" placeholder='Add a comment' class='w-full px-2 bg-transparent border-b rounded h-fit border-LMtext2' required></input>
                                 <button id="sendBtn" type='button'><span class="material-symbols-outlined">send</span></button>
                             </div>
                         </form>
@@ -178,7 +180,7 @@ if ($commentresult->num_rows > 0) {
                     ?>
 
                     <!-- Comments -->
-                    <div id='commentDiv' class="grid gap-8 py-5 px-2 sm:px-12">
+                    <div id='commentDiv' class="grid gap-8 px-2 py-5 sm:px-12">
                         <!-- Individual Comment -->
                         <?php
                         if (!empty($comments)) {

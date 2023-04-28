@@ -69,5 +69,7 @@ sendBtn.addEventListener('click', e => {
         formData.append("recipeID", recipe);
 
         postRequest.send(formData);
+        setTimeout(200)
+        $("#commentDiv").load('php/_loadComments.php')
     }
 })
