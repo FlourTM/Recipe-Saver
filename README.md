@@ -3,6 +3,8 @@
 ### Link: https://recipesaver.000webhostapp.com/index
 Disclaimer: You may receive a dangerous site false positive due to the recipe uploading system. To view, click "Details" then click "visit this unsafe site."
 
+To set up this project yourself, I have included the SQL file along with a user manual for the setup.
+
 ## <br> Introduction
 Recipe Saver is a mock recipe sharing website where users can view or upload their own recipes. It was drafted, designed, and implemented in under three months as a database project for CSC 3800 Database Management and Security.
 
